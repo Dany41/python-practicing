@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+from enum import Enum
+
+
 def is_grid_valid(grid):
     n = len(grid)
     assert n > 0
@@ -48,12 +52,10 @@ class Grid:
     def is_in(self, point):
         return self.n > point.x >= 0 and self.m > point.y >= 0
 
-
+@dataclass
 class Point:
-
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    x: int
+    y: int
 
     def to_string(self):
         return "Point(x=" + str(self.x) + ",y=" + str(self.y) + ")"
@@ -69,3 +71,20 @@ class Point:
 
     def __hash__(self):
         return hash((self.x, self.y))
+
+
+class Direction(Enum):
+    NONE = 1,
+    UP = 2,
+    RIGHT = 3,
+    DOWN = 4,
+    LEFT = 5
+
+    def turn_right(self):
+        return Direction(self.value[0] + 1)
+
+
+@dataclass
+class PointWithDirection(Point):
+
+    direction: Direction
