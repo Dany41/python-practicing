@@ -39,6 +39,30 @@ class Grid:
                 j += 1
             i += 1
 
+    def find_all(self, value):
+        found = set()
+        i = 0
+        while i < len(self.grid):
+            j = 0
+            while j < len(self.grid[0]):
+                if self.grid[i][j] == value:
+                    found.add(Point(i, j))
+                j += 1
+            i += 1
+        return found
+
+    def unique_values(self, exception =''):
+        unique = set()
+        i = 0
+        while i < len(self.grid):
+            j = 0
+            while j < len(self.grid[0]):
+                if self.grid[i][j] != exception:
+                    unique.add(self.grid[i][j])
+                j += 1
+            i += 1
+        return unique
+
     def value_at(self, point):
         return self.grid[point.x][point.y]
 
