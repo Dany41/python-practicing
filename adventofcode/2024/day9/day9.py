@@ -77,13 +77,13 @@ def resolve_part2(line):
     j = len(file) - 1
     while j >= 0:
         if file[j] == '.':
-            j -= 1
+            j -= idx_to_len[j]
             continue
         i = 0
         exit_loop = False
         while i < j and file[j] != '.' and not exit_loop:
             if file[i] != '.':
-                i += 1
+                i += idx_to_len[i]
                 continue
             if idx_to_len[i] >= idx_to_len[j]:
                 k = 0
@@ -104,9 +104,9 @@ def resolve_part2(line):
                     k += 1
                 exit_loop = True
             else:
-                i += 1
+                i += idx_to_len[i]
         if not exit_loop:
-            j -= 1
+            j -= idx_to_len[j]
 
 
     i = 0
@@ -135,4 +135,6 @@ if __name__ == "__main__":
     assert result_ex_part2 == example_expectation_part2
     print("Example test case has passed for the part 2")
     uploaded_input = upload_input("input.txt")
-    print("Part2 answer is: " + str(resolve_part2(uploaded_input)))
+    part_2_res = resolve_part2(uploaded_input)
+    assert part_2_res == 6360363199987
+    print("Part2 answer is: " + str(part_2_res))
