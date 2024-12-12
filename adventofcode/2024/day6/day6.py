@@ -1,4 +1,5 @@
-from utils.grid import Point, Grid
+from utils.grid import Grid
+from utils.point import Point
 
 
 def upload_input(file_path):
