@@ -1,6 +1,3 @@
-from dataclasses import dataclass
-from enum import Enum
-
 from utils.point import Point
 
 
@@ -30,6 +27,11 @@ class Grid:
         self.grid = copy_2dim_array(grid)
         self.n = len(grid)
         self.m = len(grid[0])
+
+    @staticmethod
+    def create(height, width, val = '.'):
+        grid = [[val] * width] * height
+        return Grid(grid)
 
     def find(self, value):
         i = 0

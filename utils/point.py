@@ -22,6 +22,21 @@ class Point:
     def __hash__(self):
         return hash((self.x, self.y))
 
+    def up(self):
+        return Point(self.x - 1, self.y)
+
+    def right(self):
+        return Point(self.x, self.y + 1)
+
+    def down(self):
+        return Point(self.x + 1, self.y)
+
+    def left(self):
+        return Point(self.x, self.y - 1)
+
+    def to_sided_points(self):
+        return [self.up(), self.right(), self.down(), self.left()]
+
 
 class Direction(Enum):
     NONE = 1,
