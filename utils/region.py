@@ -6,6 +6,7 @@ def validate(points: list[Point]):
     start = points[0]
     visited = set()
     def move_around(point):
+        visited.add(point)
         for s_p in point.to_sided_points():
             if s_p in points and s_p not in visited:
                 visited.add(s_p)
@@ -19,7 +20,9 @@ def validate(points: list[Point]):
 
 class Region:
 
-
-
     def __init__(self, points):
-        validate(points)
+        validate(list(points))
+        self.points = points
+
+    def __len__(self):
+        return len(self.points)

@@ -1,4 +1,5 @@
 from utils.point import Point
+from utils.region import Region
 
 
 def is_grid_valid(grid):
@@ -79,3 +80,23 @@ class Grid:
 
     def is_in(self, point):
         return self.n > point.x >= 0 and self.m > point.y >= 0
+
+    def regions(self, exception = ''):
+        def collect_region(p, grid, intermediate):
+            value = grid.value_at(p)
+            for p_s in p.to_sided_points():
+                if grid.is_in(p_s) and p_s not in intermediate and grid.value_at(p_s) == value:
+                    intermediate.add(p_s)
+                    for p2 in collect_region(p_s, grid, intermediate):
+                        intermediate.add(p2)
+            return intermediate
+        regions = []
+        visited = []
+        for val in self.unique_values(exception):
+            for point in self.find_all(val):
+                if point not in visited:
+                    region = Region(collect_region(point, self, {point}))
+                    regions.append(region)
+                    visited += region.points
+
+        return regions

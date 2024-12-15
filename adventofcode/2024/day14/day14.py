@@ -68,43 +68,9 @@ def resolve_part1(data, height = 103, width = 101):
     return res
 
 
-up = Point(-1, 0)
-right = Point(0, 1)
-down = Point(1, 0)
-left = Point(0, -1)
-
-
-def collect_region(crop_point, grid, intermediate):
-    value = grid.value_at(crop_point)
-    moved_up = crop_point.move(up)
-    if grid.is_in(moved_up) and moved_up not in intermediate and grid.value_at(moved_up) == value:
-        intermediate.add(moved_up)
-        for point in collect_region(moved_up, grid, intermediate):
-            intermediate.add(point)
-    moved_right = crop_point.move(right)
-    if grid.is_in(moved_right) and moved_right not in intermediate and grid.value_at(moved_right) == value:
-        intermediate.add(moved_right)
-        for point in collect_region(moved_right, grid, intermediate):
-            intermediate.add(point)
-    moved_down = crop_point.move(down)
-    if grid.is_in(moved_down) and moved_down not in intermediate and grid.value_at(moved_down) == value:
-        intermediate.add(moved_down)
-        for point in collect_region(moved_down, grid, intermediate):
-            intermediate.add(point)
-    moved_left = crop_point.move(left)
-    if grid.is_in(moved_left) and moved_left not in intermediate and grid.value_at(moved_left) == value:
-        intermediate.add(moved_left)
-        for point in collect_region(moved_left, grid, intermediate):
-            intermediate.add(point)
-    return intermediate
-
-
 def grid_has_tree(grid):
-    for p in grid.find_all('#'):
-        region = collect_region(p, grid, {p})
-        reg_len = len(region)
-
-        if reg_len > 30:
+    for region in grid.regions('.'):
+        if len(region) > 30:
             return True
 
 
@@ -127,9 +93,9 @@ def resolve_part2(data, height = 103, width = 101):
             final_x = (point.x + velocity.x * seconds) % width
             final_y = (point.y + velocity.y * seconds) % height
             grid.set_at(Point(final_y, final_x), '#')
-        grid.print()
         print("seconds " + str(i))
         if grid_has_tree(grid):
+            grid.print()
             return seconds
         i += 1
 
