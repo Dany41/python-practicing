@@ -2,6 +2,34 @@ from dataclasses import dataclass
 from enum import Enum
 
 
+class Direction(Enum):
+    NONE = 1
+    UP = 2
+    RIGHT = 3
+    DOWN = 4
+    LEFT = 5
+
+    def turn_right(self):
+        if self is Direction.UP:
+            return Direction.RIGHT
+        if self is Direction.RIGHT:
+            return Direction.DOWN
+        if self is Direction.DOWN:
+            return Direction.LEFT
+        if self is Direction.LEFT:
+            return Direction.UP
+
+    def turn_left(self):
+        if self is Direction.UP:
+            return Direction.LEFT
+        if self is Direction.LEFT:
+            return Direction.DOWN
+        if self is Direction.DOWN:
+            return Direction.RIGHT
+        if self is Direction.RIGHT:
+            return Direction.UP
+
+
 @dataclass
 class Point:
     x: int
@@ -12,6 +40,16 @@ class Point:
 
     def move(self, dx, dy):
         return Point(self.x + dx, self.y + dy)
+
+    def move_in_d(self, direction: Direction):
+        if direction is Direction.UP:
+            return self.up()
+        if direction is Direction.RIGHT:
+            return self.right()
+        if direction is Direction.DOWN:
+            return self.down()
+        if direction is Direction.LEFT:
+            return self.left()
 
     def move(self, point):
         return Point(self.x + point.x, self.y + point.y)
@@ -36,17 +74,6 @@ class Point:
 
     def to_sided_points(self):
         return [self.up(), self.right(), self.down(), self.left()]
-
-
-class Direction(Enum):
-    NONE = 1,
-    UP = 2,
-    RIGHT = 3,
-    DOWN = 4,
-    LEFT = 5
-
-    def turn_right(self):
-        return Direction(self.value[0] + 1)
 
 
 @dataclass
