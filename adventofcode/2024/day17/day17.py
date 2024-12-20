@@ -116,17 +116,21 @@ def execute_program_with_compare(program, r_a, r_b, r_c, expected):
 def resolve_part2(data):
 
     program = data["program"]
-    output = execute_program(program, data["registers"]["Register A"], 0, 0)
 
-    r_a = 13427091588403*8
+    r_a = 0
+    # 13427091588403*8
 
-    while not output.__eq__(program): # [1,->]1678386448550; 3,-> 13427091588403
-        r_a += 1
-
+    i = 1
+    n = len(program)
+    while i < n:
         output = execute_program(program, r_a, 0, 0)
+        while not output.__eq__(program[n-i-1:]):
+            r_a += 1
+            output = execute_program(program, r_a, 0, 0)
+        i += 1
+        r_a *= 8
 
-
-    return r_a
+    return int(r_a/8)
 
 
 if __name__ == "__main__":
@@ -141,12 +145,13 @@ if __name__ == "__main__":
     print("Part1 answer is: " + ",".join(map(str, part_1_solution)))
     assert part_1_solution == [2,1,3,0,5,2,3,7,1]
 
-    # example_expectation_part2 = 117440
-    # uploaded_example_input = upload_input("example2.txt")
-    # result_ex_part2 = resolve_part2(uploaded_example_input)
-    # print("Example output is " + str(result_ex_part2))
-    # assert result_ex_part2 == example_expectation_part2
-    # print("Example test case has passed for the part 2")
+    example_expectation_part2 = 117440
+    uploaded_example_input = upload_input("example2.txt")
+    result_ex_part2 = resolve_part2(uploaded_example_input)
+    print("Example output is " + str(result_ex_part2))
+    assert result_ex_part2 == example_expectation_part2
+    print("Example test case has passed for the part 2")
     uploaded_input = upload_input("input.txt")
     part_2_res = resolve_part2(uploaded_input)
     print("Part2 answer is: " + str(part_2_res))
+    assert part_2_res == 107416732707226
