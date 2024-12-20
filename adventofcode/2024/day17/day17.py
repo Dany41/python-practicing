@@ -1,8 +1,5 @@
 import math
 
-from utils.grid import Grid
-from utils.point import Point
-
 
 def upload_input(file_path):
     data = {
@@ -74,51 +71,11 @@ def resolve_part1(data):
     return execute_program(data["program"], data["registers"]["Register A"], 0, 0)
 
 
-def execute_program_with_compare(program, r_a, r_b, r_c, expected):
-
-    pointer = 0
-    pointer_exp = 0
-    output = []
-    n = len(program)
-    m = len(expected)
-
-    while pointer < n:
-        opcode = program[pointer]
-        literal = program[pointer + 1]
-        combo = get_combo(literal, r_a, r_b, r_c)
-        if opcode == 0:
-            r_a = math.floor(r_a / (2 ** combo))
-        if opcode == 1:
-            r_b ^= literal
-        if opcode == 2:
-            r_b = combo % 8
-        if opcode == 3:
-            if r_a != 0:
-                pointer = literal
-                continue
-        if opcode == 4:
-            r_b ^= r_c
-        if opcode == 5:
-            if pointer_exp >= m or combo % 8 != expected[pointer_exp]:
-                return []
-            else:
-                pointer_exp += 1
-                output.append(combo % 8)
-        if opcode == 6:
-            r_b = math.floor(r_a / (2 ** combo))
-        if opcode == 7:
-            r_c = math.floor(r_a / (2 ** combo))
-        pointer += 2
-
-    return output
-
-
 def resolve_part2(data):
 
     program = data["program"]
 
     r_a = 0
-    # 13427091588403*8
 
     i = 1
     n = len(program)
